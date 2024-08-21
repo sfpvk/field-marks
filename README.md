@@ -1,2 +1,2 @@
 # field-marks
-neovim plugin for marks in column with line numbers
+neovim plugin for creating marks in the line number column
