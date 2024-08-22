@@ -12,3 +12,10 @@ $ git clone {field-marks repository}
 vim.keymap.set('n', '<leader>m', require('field-marks').field_mark_toggle)
 vim.keymap.set('n', '<leader>mm', require('field-marks').field_mark_delall)
 ```
+if you are not satisfied with the default colors, then before key mapping, call:
+```lua
+require('field-marks').setup({
+	bg='white',
+	fg='black'
+})
+```

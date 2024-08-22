@@ -1,12 +1,22 @@
+local M = {}
+local visual_mark_counter = 1
+local initialized = false
 
-vim.api.nvim_set_hl(0, 'MyFieldMark', {fg='black', bg='orange'})
+function M.setup(config)
+	if initialized then
+		return
+	end
+	initialized = true
 
-vim.api.nvim_call_function('sign_define', {'my_field_mark',
-		{numhl='MyFieldMark'}})
+	vim.api.nvim_set_hl(0, 'MyFieldMark',
+			{fg=config.fg or 'black', bg=config.bg or 'orange'})
 
-visual_mark_counter = 1
+	vim.api.nvim_call_function('sign_define', {'my_field_mark',
+			{numhl='MyFieldMark'}})
+end
 
-local function field_mark_toggle()
+function M.field_mark_toggle()
+	M.setup({})
 	local buf_name = vim.api.nvim_buf_get_name(0)
 	local ln_signs = vim.api.nvim_call_function('sign_getplaced',
 			{vim.api.nvim_get_current_buf(), {lnum='.', group='my_field_mark'}})
@@ -20,13 +30,11 @@ local function field_mark_toggle()
 	end
 end
 
-local function field_mark_delall()
+function M.field_mark_delall()
+	M.setup({})
 	local buf_name = vim.api.nvim_buf_get_name(0)
 	vim.api.nvim_call_function('sign_unplace',
 			{'my_field_mark', {buffer=buf_name}})
 end
 
-return {
-	field_mark_toggle = field_mark_toggle,
-	field_mark_delall = field_mark_delall
-}
+return M
